@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    </head>
+<body>
+    <div id="app">
+        <h1>{{ message }}</h1>
+        <p>
+            <router-link to="/foo">Go to Foo</router-link>
+            <router-link to="/bar">Go to Bar</router-link>
+        </p>
+         <router-view></router-view>
+        <ul>
+            <li v-for="(item, index) in items" v-if="!item.secret">{{ index }} - {{ item.id }} {{ 100 * 100 }}</li>
+        </ul>
+        <span>
+            Raadio: {{ radioSet }}
+        </span>
+        <br>
+        <input v-model="radioSet" v-bind:readonly="disableForm" type="text" id="text" name="text"></input>
+        <input v-model="radioSet" v-bind:readonly="disableForm" value="1" type="radio" id="rad1" name="rad"></input>
+        <input v-model="radioSet" v-bind:readonly="disableForm" value="2" type="radio" id="rad2" name="rad"></input>
+        <input v-model="disableForm" type="checkbox">
+
+        <button v-on:click="teeJotain()">Tee jotain</button>
+    </div>
+    <script>
+        const Foo = { template: '<div>foo</div>' }
+        const Bar = { template: '<div>bar</div>' }
+
+        const routes = [
+          { path: '/foo', component: Foo },
+          { path: '/bar', component: Bar }
+        ]
+
+        const router = new VueRouter({
+          routes // short for `routes: routes`
+        })
+        var app = new Vue({
+            router,
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                bar: 'foo',
+                disableForm: false,
+                radioSet: '',
+                items: [{id: 'eka', secret:false}, {id:'toka', secret:false}, {id:'salainen', secret:true}]
+            },
+            methods: {
+                teeJotain(resource) {
+                    this.message = 'Tinttan tanttan tallallei';
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>
+
