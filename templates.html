@@ -1,7 +1,16 @@
+<!doctype html>
 <html>
     <head>
         <script src="https://unpkg.com/vue"></script>
         <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+        <style>
+            .fade-enter-active, .fade-leave-active {
+              transition: opacity .5s;
+            }
+            .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+              opacity: 0;
+            }
+        </style>
     </head>
 <body>
     <div id="app">
@@ -10,7 +19,7 @@
             <router-link to="/foo">Go to Foo</router-link>
             <router-link to="/bar">Go to Bar</router-link>
         </p>
-         <router-view></router-view>
+        <router-view></router-view>
         <ul>
             <li v-for="(item, index) in items" v-if="!item.secret">{{ index }} - {{ item.id }} {{ 100 * 100 }}</li>
         </ul>
@@ -24,19 +33,30 @@
         <input v-model="disableForm" type="checkbox">
 
         <button v-on:click="teeJotain()">Tee jotain</button>
+
+
+        <my-component inline-template><h2>Combou</h2></my-component>
+        
+        <transition name="fade">
+            <h2 v-if="radioSet">Radio set</h2>
+        </transition>
     </div>
     <script>
+        // Routing
         const Foo = { template: '<div>foo</div>' }
         const Bar = { template: '<div>bar</div>' }
-
         const routes = [
           { path: '/foo', component: Foo },
           { path: '/bar', component: Bar }
         ]
-
         const router = new VueRouter({
           routes // short for `routes: routes`
         })
+
+        // Component
+        Vue.component('my-component', {
+        })
+
         var app = new Vue({
             router,
             el: '#app',
